@@ -15,6 +15,7 @@ public class Splash extends Activity {
 		
 		 /** set time to splash out */
         final int welcomeScreenDisplay = 6000;
+        
         /** create a thread to show splash up to splash time */
         Thread welcomeThread = new Thread() {
  
