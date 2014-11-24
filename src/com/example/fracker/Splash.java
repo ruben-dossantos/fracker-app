@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 public class Splash extends Activity {
 
 	@Override
@@ -51,7 +52,7 @@ public class Splash extends Activity {
                      * times up. Here we moved to another main activity class
                      */
                     startActivity(new Intent(Splash.this,
-                            LoginController.class));
+                            MapActivity.class));
                     finish();
                 }
             }
