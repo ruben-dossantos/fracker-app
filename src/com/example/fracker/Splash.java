@@ -14,7 +14,8 @@ public class Splash extends Activity {
 		setContentView(R.layout.activity_splash);
 		
 		 /** set time to splash out */
-        final int welcomeScreenDisplay = 6000;
+		//TODO: change this to 5000/6000
+        final int welcomeScreenDisplay = 1000;
         /** create a thread to show splash up to splash time */
         Thread welcomeThread = new Thread() {
  
