@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".GroupsController" >
+
+    <RelativeLayout
+        android:id="@+id/menu_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:background="@color/blue"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20sp"
+            android:text="@string/app_name"
+            android:textSize="30sp" />
+
+        <ImageButton
+            android:id="@+id/add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/search"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_add" />
+
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/title"
+            android:layout_toLeftOf="@+id/add_group"
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_search" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/listGroups"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.98"/>
+    </LinearLayout>
+
+</LinearLayout>

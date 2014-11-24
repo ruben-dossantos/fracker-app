@@ -52,7 +52,7 @@ public class Splash extends Activity {
                      * times up. Here we moved to another main activity class
                      */
                     startActivity(new Intent(Splash.this,
-                            MapActivity.class));
+                            GroupsController.class));
                     finish();
                 }
             }
