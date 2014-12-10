@@ -3,9 +3,6 @@ package com.example.fracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
 
 public class Splash extends Activity {
 
@@ -53,7 +50,7 @@ public class Splash extends Activity {
                      * times up. Here we moved to another main activity class
                      */
                     startActivity(new Intent(Splash.this,
-                            GroupsController.class));
+                            LoginController.class));
                     finish();
                 }
             }

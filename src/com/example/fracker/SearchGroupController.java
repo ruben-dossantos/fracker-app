@@ -1,26 +1,22 @@
 package com.example.fracker;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
-public class LoginController extends Activity {
+public class SearchGroupController extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login_controller);
+		setContentView(R.layout.search_group_controller);
 		
-		Button button1 = (Button)findViewById(R.id.login_button); 
+	/*	Button button1 = (Button)findViewById(R.id.login_button); 
 		button1.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0) {
 				
 				//String message = "From MainActivity";
 				//int id= 50;
-				Intent i=new Intent(LoginController.this,GroupsController.class);
+				Intent i=new Intent(CreateGroupController.this,GroupsController.class);
 				//i.putExtra("EXTRA_MESSAGE", message);
 				//i.putExtra("EXTRA_ID", id);
 				startActivity(i);
@@ -30,10 +26,10 @@ public class LoginController extends Activity {
 		button2.setOnClickListener(new OnClickListener(){
 			public void onClick(View arg0) {
 				
-				Intent i=new Intent(LoginController.this,SignupController.class);
-				startActivity(i);
+				//Intent i=new Intent(LoginController.this,Sign.class);
+				//startActivityForResult(i,REQUEST_CODE_1);
 			}
-		});
+		});*/
 		
 	}
 }
