@@ -9,5 +9,8 @@
     <string name="password">Password</string>
     <string name="fracker_image">Image Fracker</string>
     <string name="loading">Loading...</string>
+    <string name="group_name">Group name</string>
+    <string name="retype_password">Retype password</string>
+    <string name="create_group">Create</string>
 
 </resources>

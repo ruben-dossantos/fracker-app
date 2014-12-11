@@ -48,7 +48,7 @@
         </activity>
         <activity android:name=".GroupsController" android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-        <activity android:name=".AddGroupController" android:theme="@android:style/Theme.Black.NoTitleBar" >
+        <activity android:name=".AddGroupController"  >
         </activity>
         <activity android:name=".SearchGroupController" android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
