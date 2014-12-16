@@ -1,7 +1,9 @@
 package com.example.fracker;
 
+import com.example.fracker.model.Group;
+import com.google.gson.Gson;
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +23,7 @@ public class AddGroupController extends Activity {
 
 		Button createGroup = (Button) findViewById(R.id.submit_group);
 		createGroup.setOnClickListener(new OnClickListener() {
+			@Override
 			public void onClick(View arg0) {
 				groupName = ((TextView) findViewById(R.id.group_name))
 						.getText().toString();
@@ -34,6 +37,20 @@ public class AddGroupController extends Activity {
 					// valid
 					Toast.makeText(getApplicationContext(),
 							"Valid password and groupName", Toast.LENGTH_LONG)
+							.show();
+					
+					//Serialization 
+					String json = new Gson().toJson(new Group(groupName,password));
+					
+					//Deserialization
+					Group g = new Gson().fromJson(json, Group.class);
+					
+					//simular o enviar e o receber porque nao existe BACKOFFICE!!
+					Toast.makeText(getApplicationContext(),
+							json, Toast.LENGTH_LONG)
+							.show();
+					Toast.makeText(getApplicationContext(),
+							g.toString(), Toast.LENGTH_LONG)
 							.show();
 				}
 				if (!checkPassWordAndConfirmPassword(password,

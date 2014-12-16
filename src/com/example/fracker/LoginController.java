@@ -18,6 +18,7 @@ public class LoginController extends Activity {
 		
 		Button button1 = (Button)findViewById(R.id.login_button); 
 		button1.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(View arg0) {
 				
 				//String message = "From MainActivity";
@@ -30,6 +31,7 @@ public class LoginController extends Activity {
 		});
 		Button button2 = (Button)findViewById(R.id.sign_up_button); 
 		button2.setOnClickListener(new OnClickListener(){
+			@Override
 			public void onClick(View arg0) {
 				
 				Intent i=new Intent(LoginController.this,SignupController.class);

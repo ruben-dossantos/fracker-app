@@ -41,7 +41,8 @@ public class GroupsController extends Activity{
          listView.setAdapter(arrayAdapter); 
 		
          listView.setOnItemClickListener(new OnItemClickListener() {
-        	 public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
+        	 @Override
+			public void onItemClick(AdapterView<?> myAdapter, View myView, int myItemInt, long mylng) {
         		String selectedFromList =(String) (listView.getItemAtPosition(myItemInt));
  				//String message = "From MainActivity";
  				//int id= 50;
@@ -54,7 +55,8 @@ public class GroupsController extends Activity{
          
  		ImageButton button2 = (ImageButton)findViewById(R.id.add_group); 
  		button2.setOnClickListener(new OnClickListener(){
- 			public void onClick(View arg0) {
+ 			@Override
+			public void onClick(View arg0) {
  				
  				Intent i=new Intent(GroupsController.this, AddGroupController.class);
  				startActivity(i);
@@ -63,7 +65,8 @@ public class GroupsController extends Activity{
  		
  		ImageButton button3 = (ImageButton)findViewById(R.id.search); 
  		button3.setOnClickListener(new OnClickListener(){
- 			public void onClick(View arg0) {
+ 			@Override
+			public void onClick(View arg0) {
  				
  				Intent i=new Intent(GroupsController.this, SearchGroupController.class);
  				startActivity(i);
