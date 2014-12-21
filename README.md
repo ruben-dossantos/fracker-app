@@ -17,3 +17,5 @@ PUT     /user/:id/group {"user" : 1, "group": 1}
 DELETE  /user/:user/group/:group
 
 GET     /group
+
+PUT     /user/:user       { "username": "jdias", "lat": "41.2784072", "lon": "-8.3702511" }
