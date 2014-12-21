@@ -1,5 +1,7 @@
 # How to use the Backend #
 
+Host: http://crucifix.inescporto.pt:8080
+
 POST    /login  { "username": "ruben", "password": "123456" }
 
 POST    /signup { "username": "ruben" , "password": "123456", "first_name": "ruben", "last_name": "barros"}
