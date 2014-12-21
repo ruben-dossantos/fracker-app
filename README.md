@@ -1,8 +1,8 @@
 # How to use the Backend #
 
-POST    /login  { "username": "ruben", "123456" }
+POST    /login  { "username": "ruben", "password": "123456" }
 
-POST    /signup { "username": "ruben" , "123456", "first_name": "ruben", "last_name": "barros"}
+POST    /signup { "username": "ruben" , "password": "123456", "first_name": "ruben", "last_name": "barros"}
 
 GET     /user/:id/group 
 
