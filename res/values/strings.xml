@@ -13,6 +13,8 @@
     <string name="retype_password">Retype password</string>
     <string name="create_group">Create</string>
     
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
     
     <string name="menu_settings">Settings</string>  
 
@@ -21,6 +23,13 @@
     <string name="pref_send_report_summary">Helps to fix bugs</string>
     <string name="pref_sync_frequency">Sync frequency</string>
     <string name="pref_sync_frequency_summary">Set the sync frequency</string>
+    
+    <string name="pref_notification_distance">Notification distance</string>
+    <string name="pref_notification_distance_summary">Set the notification distance</string>
+    
+    <string name="pref_random_positions">Random position</string>
+    <string name="pref_random_positions_summary">Privacy: Randomize my position</string>
+    
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
     

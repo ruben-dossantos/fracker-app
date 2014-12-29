@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <PreferenceCategory android:title="@string/pref_user_profile" >
-        <EditTextPreference 
-            	android:title="@string/pref_user_name" 
-            	android:summary="@string/pref_user_name_summary" 
-            	android:key="prefUsername"/>
+    
+    <PreferenceCategory android:title="Update Days">
+    
+        <com.example.fracker.TimePreference        
+        android:key="monday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Monday" />
+        
+        <com.example.fracker.TimePreference        
+        android:key="tuesday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Tuesday" />
+        
+        <com.example.fracker.TimePreference        
+        android:key="wednesday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Wednesday" />
+        
+        <com.example.fracker.TimePreference        
+        android:key="thursday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Thursday" />
+        
+        <com.example.fracker.TimePreference        
+        android:key="friday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Friday" />
+        
+        <com.example.fracker.TimePreference        
+        android:key="saturday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Saturday" />
+        
+        <com.example.fracker.TimePreference        
+        android:key="sunday"
+        android:summary="Set your desired time for the lunch alarm"
+        android:title="Sunday" />
+        
     </PreferenceCategory>
     
-    <PreferenceCategory android:title="@string/pref_update_setting" >
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="prefSendReport"
-            android:summary="@string/pref_send_report_summary"
-            android:title="@string/pref_send_report" >
-        </CheckBoxPreference>
-
+    <PreferenceCategory android:title="Notifications">
         <ListPreference
-            android:key="prefSyncFrequency"
-            android:entries="@array/syncFrequency"
-            android:summary="@string/pref_sync_frequency_summary" 
-            android:entryValues="@array/syncFrequencyValues"
-            android:title="@string/pref_sync_frequency" />
+            android:key="prefNofiticationDistance"
+            android:entries="@array/notification_distances"
+            android:summary="@string/pref_notification_distance_summary" 
+            android:entryValues="@array/notification_distances_values"
+            android:title="@string/pref_notification_distance" />
     </PreferenceCategory>
 
+    
+    <PreferenceCategory android:title="Position">
+        <ListPreference
+            android:key="prefRandomPosition"
+            android:entries="@array/random_positions"
+            android:summary="@string/pref_random_positions_summary" 
+            android:entryValues="@array/random_positions_values"
+            android:title="@string/pref_random_positions" />
+    </PreferenceCategory>
+    
 </PreferenceScreen>
