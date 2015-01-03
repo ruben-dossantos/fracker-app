@@ -23,24 +23,22 @@
             android:text="@string/app_name"
             android:textSize="30sp" />
 
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/add_group" >
+        </SearchView>
+
         <ImageButton
             android:id="@+id/add_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/search"
+            android:layout_marginTop="8sp"
             android:background="@null"
             android:src="@android:drawable/ic_menu_add" />
-
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/title"
-            android:layout_toLeftOf="@+id/add_group"
-            android:background="@null"
-            android:src="@android:drawable/ic_menu_search" />
-
     </RelativeLayout>
 
     <LinearLayout
@@ -55,14 +53,14 @@
             android:id="@+id/listGroups"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.98"/>
+            android:layout_weight="0.98" />
     </LinearLayout>
 
-    
     <TextView
         android:id="@+id/textUserSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_medium"
         tools:context=".MainActivity" />
+
 </LinearLayout>

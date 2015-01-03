@@ -2,31 +2,43 @@ package com.example.fracker;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.SearchView.OnCloseListener;
 import android.widget.TextView;
 
-public class GroupsController extends Activity {
+public class GroupsController extends Activity implements
+		SearchView.OnQueryTextListener {
 
 	private static final int RESULT_SETTINGS = 1;
+	private ListView listView;
+	private SearchView mSearchView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.groups_controller);
-		final ListView listView = (ListView) findViewById(R.id.listGroups);
+		listView = (ListView) findViewById(R.id.listGroups);
+		mSearchView = (SearchView) findViewById(R.id.search_view);
+		listView.setTextFilterEnabled(true);
+		setupSearchView();
 
 		showUserSettings();
 
@@ -61,6 +73,25 @@ public class GroupsController extends Activity {
 			}
 		});
 
+		mSearchView.setOnSearchClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				TextView tv = (TextView) findViewById(R.id.title);
+				tv.setVisibility(View.GONE);
+
+			}
+		});
+		
+		mSearchView.setOnCloseListener(new OnCloseListener() {
+			@Override
+			public boolean onClose() {
+				TextView tv = (TextView) findViewById(R.id.title);
+				tv.setVisibility(View.VISIBLE);
+				return false;
+			}
+		});
+
 		ImageButton button2 = (ImageButton) findViewById(R.id.add_group);
 		button2.setOnClickListener(new OnClickListener() {
 			@Override
@@ -72,16 +103,15 @@ public class GroupsController extends Activity {
 			}
 		});
 
-		ImageButton button3 = (ImageButton) findViewById(R.id.search);
-		button3.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-
-				Intent i = new Intent(GroupsController.this,
-						SearchGroupController.class);
-				startActivity(i);
-			}
-		});
+		/*
+		 * ImageButton button3 = (ImageButton) findViewById(R.id.search);
+		 * button3.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) {
+		 * 
+		 * Intent i = new Intent(GroupsController.this,
+		 * SearchGroupController.class); startActivity(i); } });
+		 */
 	}
 
 	@Override
@@ -135,6 +165,26 @@ public class GroupsController extends Activity {
 		TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
 
 		settingsTextView.setText(builder.toString());
+	}
+
+	private void setupSearchView() {
+		mSearchView.setIconifiedByDefault(true);
+		mSearchView.setOnQueryTextListener(this);
+		mSearchView.setSubmitButtonEnabled(true);
+		mSearchView.setQueryHint("Search group");
+	}
+
+	public boolean onQueryTextChange(String newText) {
+		if (TextUtils.isEmpty(newText)) {
+			listView.clearTextFilter();
+		} else {
+			listView.setFilterText(newText.toString());
+		}
+		return true;
+	}
+
+	public boolean onQueryTextSubmit(String query) {
+		return false;
 	}
 
 }
