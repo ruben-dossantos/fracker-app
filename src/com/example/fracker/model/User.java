@@ -2,91 +2,126 @@ package com.example.fracker.model;
 
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
+	@Expose
+	@SerializedName("id")
+	private long _id;
+
+	@Expose
+	@SerializedName("username")
 	String _username;
-	
-	String _first_name;
-	
-	String _last_name;
-	
+
+	@Expose
+	@SerializedName("password")
 	String _password;
-	
-	String _lat; 
-	
+
+	@Expose
+	@SerializedName("first_name")
+	String _first_name;
+
+	@Expose
+	@SerializedName("last_name")
+	String _last_name;
+
+	@SerializedName("lat")
+	String _lat;
+
+	@SerializedName("lon")
 	String _lon;
-	
-	long _timestamp; 
-	
+
+	long _timestamp;
+
 	List<Group> _groups;
-	
-	public String get_username() {
+
+	public User(String username, String password) {
+		_username = username;
+		_password = password;
+	}
+
+	public User(String username, String password, String first_name,
+			String last_name) {
+		_username = username;
+		_password = password;
+		_first_name = first_name;
+		_last_name = last_name;
+	}
+
+	public long getId() {
+		return _id;
+	}
+
+	public String getUsername() {
 		return _username;
 	}
-	
-	public void set_username(String _username) {
+
+	public void setUsername(String _username) {
 		this._username = _username;
 	}
-	
-	public String get_first_name() {
+
+	public String getFirst_name() {
 		return _first_name;
 	}
-	
-	public void set_first_name(String _first_name) {
+
+	public void setFirst_name(String _first_name) {
 		this._first_name = _first_name;
 	}
-	
-	public String get_last_name() {
+
+	public String getLast_name() {
 		return _last_name;
 	}
-	
-	public void set_last_name(String _last_name) {
+
+	public void setLast_name(String _last_name) {
 		this._last_name = _last_name;
 	}
-	
-	public String get_password() {
+
+	public String getPassword() {
 		return _password;
 	}
-	
-	public void set_password(String _password) {
+
+	public void setPassword(String _password) {
 		this._password = _password;
 	}
-	
-	public String get_lat() {
+
+	public String getLat() {
 		return _lat;
 	}
-	
-	public void set_lat(String _lat) {
+
+	public void setLat(String _lat) {
 		this._lat = _lat;
 	}
-	
-	public String get_lon() {
+
+	public String getLon() {
 		return _lon;
 	}
-	
-	public void set_lon(String _lon) {
+
+	public void setLon(String _lon) {
 		this._lon = _lon;
 	}
-	
-	public long get_timestamp() {
+
+	public long getTimestamp() {
 		return _timestamp;
 	}
-	
-	public void set_timestamp(long _timestamp) {
+
+	public void setTimestamp(long _timestamp) {
 		this._timestamp = _timestamp;
 	}
-	
-	public List<Group> get_groups() {
+
+	public List<Group> getGroups() {
 		return _groups;
 	}
-	
-	public void set_groups(List<Group> _groups) {
+
+	public void setGroups(List<Group> _groups) {
 		this._groups = _groups;
-	} 
-	
+	}
+
 	@Override
 	public String toString() {
-		
-		return String.format("Username: %s Lat: %s Lon: %s", _username, _lat, _lon);
+
+		return String.format("Username: %s Lat: %s Lon: %s", _username, _lat,
+				_lon);
 	}
 }

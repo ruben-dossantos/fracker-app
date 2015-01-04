@@ -2,12 +2,23 @@ package com.example.fracker.model;
 
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Group {
 
+	@Expose
+	@SerializedName("id")
+	private long _id;
+
+	@Expose
+	@SerializedName("name")
 	String _name;
-	
+
+	@Expose
+	@SerializedName("password")
 	String _password;
-	
+
 	List<User> _users;
 
 	public Group(String groupName, String password) {
@@ -15,34 +26,38 @@ public class Group {
 		_password = password;
 	}
 
-	public String get_name() {
+	public long getId() {
+		return _id;
+	}
+
+	public String getName() {
 		return _name;
 	}
 
-	public void set_name(String _name) {
+	public void setName(String _name) {
 		this._name = _name;
 	}
 
-	public String get_password() {
+	public String getPassword() {
 		return _password;
 	}
 
-	public void set_password(String _password) {
+	public void setPassword(String _password) {
 		this._password = _password;
 	}
 
-	public List<User> get_users() {
+	public List<User> getUsers() {
 		return _users;
 	}
 
-	public void set_users(List<User> _users) {
+	public void setUsers(List<User> _users) {
 		this._users = _users;
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return String.format("Group: %s", _name);
+
+		return String.format("%s", _name);
 	}
-	
+
 }

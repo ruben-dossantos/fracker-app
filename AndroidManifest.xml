@@ -56,9 +56,7 @@
             android:name=".SearchGroupController"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
-        <activity
-            android:name=".SignupController"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        <activity android:name=".SignupController">
         </activity>
         <activity android:name=".UserSettingActivity" />
   
