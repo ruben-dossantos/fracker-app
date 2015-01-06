@@ -13,33 +13,13 @@
         android:background="@color/blue"
         android:gravity="center_vertical" >
 
-        <TextView
-            android:id="@+id/title"
+        <SearchView
+            android:id="@+id/search_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20sp"
-            android:text="@string/app_name"
-            android:textSize="30sp" />
-
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/add_group"
-            android:layout_toLeftOf="@+id/add_group"
-            android:background="@null"
-            android:src="@android:drawable/ic_menu_search" />
-
-        <ImageButton
-            android:id="@+id/add_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8sp"
-            android:background="@null"
-            android:src="@android:drawable/ic_menu_add" />
+            android:layout_alignBottom="@+id/title"
+            android:layout_alignParentRight="true" >
+        </SearchView>
     </RelativeLayout>
 
     <LinearLayout

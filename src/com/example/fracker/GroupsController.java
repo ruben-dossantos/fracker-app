@@ -40,54 +40,46 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnCloseListener;
 import android.widget.TextView;
 
-public class GroupsController extends Activity implements
-		SearchView.OnQueryTextListener {
+public class GroupsController extends Activity {
 
 	private static final int RESULT_SETTINGS = 1;
 	private ListView listView;
-	private SearchView mSearchView;
 	private User userLogin;
 	private String backendURL = "http://crucifix.inescporto.pt:8080";
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.groups_controller);
 		listView = (ListView) findViewById(R.id.listGroups);
-		mSearchView = (SearchView) findViewById(R.id.search_view);
-		listView.setTextFilterEnabled(true);
-		setupSearchView();
-
+		
 		// params pass from login
-		/*Bundle extras = getIntent().getExtras();
-		if (extras != null) {
-			// Deserialization
-			userLogin = new Gson().fromJson(extras.getString("UserLogin"),
-					User.class);
-		}*/
+		/*
+		 * Bundle extras = getIntent().getExtras(); if (extras != null) { //
+		 * Deserialization userLogin = new
+		 * Gson().fromJson(extras.getString("UserLogin"), User.class); }
+		 */
 		userLogin = UserLogin.getInstance().userLogin;
 
 		showUserSettings();
 
-		new GetGroupTask().execute(
-				String.format("%s%s", backendURL, "/group"));
-		
-		/*List<String> your_array_list = new ArrayList<String>();
-		your_array_list.add("INESC CENAS");
-		your_array_list.add("CRITICAL CENAS");
-		your_array_list.add("ISEP CENAS");
-		your_array_list.add("FEUP CENAS");
-		your_array_list.add("PORTO CENAS");
-		your_array_list.add("ERASMUS");
+		new GetGroupTask().execute(String.format("%s%s", backendURL, "/group"));
 
-		// This is the array adapter, it takes the context of the activity as a
-		// first parameter, the type of list view as a second parameter and your
-		// array as a third parameter.
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-				R.layout.black_textview, your_array_list);
-
-		listView.setAdapter(arrayAdapter);*/
+		/*
+		 * List<String> your_array_list = new ArrayList<String>();
+		 * your_array_list.add("INESC CENAS");
+		 * your_array_list.add("CRITICAL CENAS");
+		 * your_array_list.add("ISEP CENAS"); your_array_list.add("FEUP CENAS");
+		 * your_array_list.add("PORTO CENAS"); your_array_list.add("ERASMUS");
+		 * 
+		 * // This is the array adapter, it takes the context of the activity as
+		 * a // first parameter, the type of list view as a second parameter and
+		 * your // array as a third parameter. ArrayAdapter<String> arrayAdapter
+		 * = new ArrayAdapter<String>(this, R.layout.black_textview,
+		 * your_array_list);
+		 * 
+		 * listView.setAdapter(arrayAdapter);
+		 */
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -104,26 +96,7 @@ public class GroupsController extends Activity implements
 			}
 		});
 
-		mSearchView.setOnSearchClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				TextView tv = (TextView) findViewById(R.id.title);
-				tv.setVisibility(View.GONE);
-
-			}
-		});
-
-		mSearchView.setOnCloseListener(new OnCloseListener() {
-			@Override
-			public boolean onClose() {
-				TextView tv = (TextView) findViewById(R.id.title);
-				tv.setVisibility(View.VISIBLE);
-				return false;
-			}
-		});
-
-		ImageButton button2 = (ImageButton) findViewById(R.id.add_group);
+     	ImageButton button2 = (ImageButton) findViewById(R.id.add_group);
 		button2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -134,15 +107,18 @@ public class GroupsController extends Activity implements
 			}
 		});
 
-		/*
-		 * ImageButton button3 = (ImageButton) findViewById(R.id.search);
-		 * button3.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View arg0) {
-		 * 
-		 * Intent i = new Intent(GroupsController.this,
-		 * SearchGroupController.class); startActivity(i); } });
-		 */
+		ImageButton button3 = (ImageButton) findViewById(R.id.search);
+		button3.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent i = new Intent(GroupsController.this,
+						SearchGroupController.class);
+				startActivity(i);
+			}
+		});
+
 	}
 
 	@Override
@@ -198,25 +174,18 @@ public class GroupsController extends Activity implements
 		settingsTextView.setText(builder.toString());
 	}
 
-	private void setupSearchView() {
-		mSearchView.setIconifiedByDefault(true);
-		mSearchView.setOnQueryTextListener(this);
-		mSearchView.setSubmitButtonEnabled(true);
-		mSearchView.setQueryHint("Search group");
-	}
-
-	public boolean onQueryTextChange(String newText) {
-		if (TextUtils.isEmpty(newText)) {
-			listView.clearTextFilter();
-		} else {
-			listView.setFilterText(newText.toString());
-		}
-		return true;
-	}
-
-	public boolean onQueryTextSubmit(String query) {
-		return false;
-	}
+	/*
+	 * private void setupSearchView() { mSearchView.setIconifiedByDefault(true);
+	 * mSearchView.setOnQueryTextListener(this);
+	 * mSearchView.setSubmitButtonEnabled(true);
+	 * mSearchView.setQueryHint("Search group"); }
+	 * 
+	 * public boolean onQueryTextChange(String newText) { if
+	 * (TextUtils.isEmpty(newText)) { listView.clearTextFilter(); } else {
+	 * listView.setFilterText(newText.toString()); } return true; }
+	 * 
+	 * public boolean onQueryTextSubmit(String query) { return false; }
+	 */
 
 	private class GetGroupTask extends AsyncTask<String, String, String> {
 
@@ -226,11 +195,12 @@ public class GroupsController extends Activity implements
 			HttpResponse response;
 			String responseString = null;
 			try {
-				 HttpGet g = new HttpGet(uri[0]);
-				/*HttpPost p = new HttpPost(uri[0]);
-				p.setEntity(new StringEntity(uri[1], "UTF8"));
-				p.setHeader("Content-type", "application/json");
-*/
+				HttpGet g = new HttpGet(uri[0]);
+				/*
+				 * HttpPost p = new HttpPost(uri[0]); p.setEntity(new
+				 * StringEntity(uri[1], "UTF8")); p.setHeader("Content-type",
+				 * "application/json");
+				 */
 				response = httpclient.execute(g);
 				StatusLine statusLine = response.getStatusLine();
 				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
@@ -257,11 +227,16 @@ public class GroupsController extends Activity implements
 			if (result != null) {
 
 				List<Group> your_array_list = new ArrayList<Group>();
-				your_array_list = Arrays.asList(new Gson().fromJson(result, Group[].class));
-				// This is the array adapter, it takes the context of the activity as a
-				// first parameter, the type of list view as a second parameter and your
+				your_array_list = Arrays.asList(new Gson().fromJson(result,
+						Group[].class));
+				// This is the array adapter, it takes the context of the
+				// activity as a
+				// first parameter, the type of list view as a second parameter
+				// and your
 				// array as a third parameter.
-				ArrayAdapter<Group> arrayAdapter = new ArrayAdapter<Group>(GroupsController.this,R.layout.black_textview, your_array_list);
+				ArrayAdapter<Group> arrayAdapter = new ArrayAdapter<Group>(
+						GroupsController.this, R.layout.black_textview,
+						your_array_list);
 
 				listView.setAdapter(arrayAdapter);
 			}
