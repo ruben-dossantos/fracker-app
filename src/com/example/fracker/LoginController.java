@@ -11,13 +11,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.example.fracker.model.User;
-import com.example.fracker.model.UserLogin;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,6 +22,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.fracker.model.User;
+import com.example.fracker.model.UserLogin;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class LoginController extends Activity {
 	private String username, password;

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,7 +37,7 @@ public class SignupController extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	//	this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.signup_controller);
 
 		Button button1 = (Button) findViewById(R.id.create_button);

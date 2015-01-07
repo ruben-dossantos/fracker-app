@@ -151,7 +151,7 @@ public class AddGroupController extends Activity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				Toast.makeText(getApplicationContext(), "Your group was be created ",
+				Toast.makeText(getApplicationContext(), "Your group was created ",
 						Toast.LENGTH_LONG).show();
 				Intent i = new Intent(AddGroupController.this,
 						GroupsController.class);
