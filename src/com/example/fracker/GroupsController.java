@@ -87,11 +87,9 @@ public class GroupsController extends Activity {
 					int myItemInt, long mylng) {
 				Group selectedFromList = (Group) (listView
 						.getItemAtPosition(myItemInt));
-				// String message = "From MainActivity";
-				// int id= 50;
+
 				Intent i = new Intent(GroupsController.this, MapActivity.class);
-				// i.putExtra("EXTRA_MESSAGE", message);
-				// i.putExtra("EXTRA_ID", id);
+				i.putExtra("GROUP_ID", Long.toString(selectedFromList.getId()));
 				startActivity(i);
 			}
 		});
