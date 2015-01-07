@@ -35,6 +35,7 @@ public class User {
 
 	long _timestamp;
 
+	@SerializedName("groups")
 	List<Group> _groups;
 
 	public User(String username, String password) {

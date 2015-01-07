@@ -19,6 +19,7 @@ public class Group {
 	@SerializedName("password")
 	String _password;
 
+	@SerializedName("users")
 	List<User> _users;
 
 	public Group(String groupName, String password) {

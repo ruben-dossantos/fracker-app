@@ -258,12 +258,16 @@ public class GroupsController extends Activity implements
 
 				List<Group> your_array_list = new ArrayList<Group>();
 				your_array_list = Arrays.asList(new Gson().fromJson(result, Group[].class));
+				
+				//instantiate custom adapter
+			    ListviewbuttonAdapter adapter = new ListviewbuttonAdapter(your_array_list, GroupsController.this, R.drawable.ic_minus);
+
 				// This is the array adapter, it takes the context of the activity as a
 				// first parameter, the type of list view as a second parameter and your
 				// array as a third parameter.
-				ArrayAdapter<Group> arrayAdapter = new ArrayAdapter<Group>(GroupsController.this,R.layout.black_textview, your_array_list);
+				//ArrayAdapter<Group> arrayAdapter = new ArrayAdapter<Group>(GroupsController.this,R.layout.black_textview, your_array_list);
 
-				listView.setAdapter(arrayAdapter);
+				listView.setAdapter(adapter);
 			}
 		}
 	}
