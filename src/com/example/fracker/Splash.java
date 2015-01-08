@@ -55,6 +55,8 @@ public class Splash extends Activity {
 		};
 		welcomeThread.start();
 
+		Intent intent = new Intent(Splash.this, PositionService.class);
+		startService(intent);
 	}
 
 }

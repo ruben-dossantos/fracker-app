@@ -56,18 +56,22 @@
             android:name=".SearchGroupController"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
-        <activity android:name=".SignupController">
+        <activity android:name=".SignupController" >
         </activity>
         <activity android:name=".UserSettingActivity" />
-  
 
-    <!-- Google API Key -->
-    <meta-data
-        android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyDUMkWSUSD7Jd5JX7v_iNwnaz_Z_YcSpeo" />
-    
-    <meta-data
-        android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
-  </application>
+        <service
+            android:name="PositionService"
+            android:enabled="true" >
+        </service>
+
+        <!-- Google API Key -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDUMkWSUSD7Jd5JX7v_iNwnaz_Z_YcSpeo" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </application>
+
 </manifest>
