@@ -26,6 +26,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SignupController extends Activity {
@@ -54,12 +55,20 @@ public class SignupController extends Activity {
 				last_name = ((TextView) findViewById(R.id.input_last_name))
 						.getText().toString();
 
+				if (username.isEmpty()
+						&& password.isEmpty() && first_name.isEmpty() && last_name.isEmpty()) {
+					Toast.makeText(getApplicationContext(),
+							"Invalid fields", Toast.LENGTH_LONG)
+							.show();
+				
+				}else{
 				User user = new User(username, password, first_name, last_name);
 				Gson gson = new GsonBuilder()
 						.excludeFieldsWithoutExposeAnnotation().create();
 				String json = gson.toJson(user);
 				new PostSignupTask().execute(
 						String.format("%s%s", backendURL, "/signup"), json);
+				}
 			}
 		});
 

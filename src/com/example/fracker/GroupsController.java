@@ -52,7 +52,7 @@ public class GroupsController extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.groups_controller);
 		listView = (ListView) findViewById(R.id.listGroups);
-		
+
 		// params pass from login
 		/*
 		 * Bundle extras = getIntent().getExtras(); if (extras != null) { //
@@ -63,7 +63,7 @@ public class GroupsController extends Activity {
 
 		showUserSettings();
 
-		new GetGroupTask().execute(String.format("%s%s", backendURL, "/group"));
+		new GetGroupTask().execute(String.format("%s/user/%s/group", backendURL, userLogin.getId()));
 
 		/*
 		 * List<String> your_array_list = new ArrayList<String>();
@@ -83,10 +83,10 @@ public class GroupsController extends Activity {
 
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> myAdapter, View myView,
-					int myItemInt, long mylng) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				Group selectedFromList = (Group) (listView
-						.getItemAtPosition(myItemInt));
+						.getItemAtPosition(position));
 
 				Intent i = new Intent(GroupsController.this, MapActivity.class);
 				i.putExtra("GROUP_ID", Long.toString(selectedFromList.getId()));
@@ -94,7 +94,7 @@ public class GroupsController extends Activity {
 			}
 		});
 
-     	ImageButton button2 = (ImageButton) findViewById(R.id.add_group);
+		ImageButton button2 = (ImageButton) findViewById(R.id.add_group);
 		button2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -119,6 +119,12 @@ public class GroupsController extends Activity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		new GetGroupTask().execute(String.format("%s/user/%s/group", backendURL, userLogin.getId()));
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.settings, menu);
@@ -194,11 +200,7 @@ public class GroupsController extends Activity {
 			String responseString = null;
 			try {
 				HttpGet g = new HttpGet(uri[0]);
-				/*
-				 * HttpPost p = new HttpPost(uri[0]); p.setEntity(new
-				 * StringEntity(uri[1], "UTF8")); p.setHeader("Content-type",
-				 * "application/json");
-				 */
+
 				response = httpclient.execute(g);
 				StatusLine statusLine = response.getStatusLine();
 				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
@@ -224,18 +226,17 @@ public class GroupsController extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 
-				List<Group> your_array_list = new ArrayList<Group>();
-				your_array_list = Arrays.asList(new Gson().fromJson(result, Group[].class));
-				
-				//instantiate custom adapter
-			    ListviewbuttonAdapter adapter = new ListviewbuttonAdapter(your_array_list, GroupsController.this, R.drawable.ic_minus);
+				User user = new Gson().fromJson(result, User.class);
+				userLogin.setGroups(user.getGroups());
+				List<Group> your_array_list = userLogin.getGroups();
 
-				// This is the array adapter, it takes the context of the activity as a
-				// first parameter, the type of list view as a second parameter and your
-				// array as a third parameter.
-				//ArrayAdapter<Group> arrayAdapter = new ArrayAdapter<Group>(GroupsController.this,R.layout.black_textview, your_array_list);
+				// instantiate custom adapter
+				ListviewbuttonAdapter adapter = new ListviewbuttonAdapter(
+						your_array_list, GroupsController.this,
+						R.drawable.ic_minus);
 
 				listView.setAdapter(adapter);
+
 			}
 		}
 	}

@@ -13,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.example.fracker.model.Group;
+import com.example.fracker.model.UserLogin;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,7 +60,7 @@ public class AddGroupController extends Activity {
 
 					Gson gson = new GsonBuilder()
 							.excludeFieldsWithoutExposeAnnotation().create();
-					Group g1 = new Group(groupName, password);
+					Group g1 = new Group(groupName, password, UserLogin.getInstance().userLogin.getId());
 					// List<User> users = new ArrayList<User>();
 					// users.add(new User("asd","asd","asds"));
 					// g1.set_users(users);

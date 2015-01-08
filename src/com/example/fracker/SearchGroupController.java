@@ -92,17 +92,20 @@ public class SearchGroupController extends Activity implements
 			listView.clearTextFilter();
 			List<String> your_array_list = new ArrayList<String>();
 
-			// This is the array adapter, it takes the context of the activity as a
-			// first parameter, the type of list view as a second parameter and your
+			// This is the array adapter, it takes the context of the activity
+			// as a
+			// first parameter, the type of list view as a second parameter and
+			// your
 			// array as a third parameter.
 			ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
 					R.layout.black_textview, your_array_list);
 
 			listView.setAdapter(arrayAdapter);
-			
+
 		} else {
-			new GetGroupTask().execute(String.format("%s%s%s", backendURL,
-					"/group?name=", mSearchView.getQuery()));
+			new GetGroupTask().execute(String.format(
+					"%s/group?name=%s&user=%s", backendURL,
+					mSearchView.getQuery(), userLogin.getId()));
 			listView.setFilterText(newText.toString());
 		}
 		return true;
@@ -121,11 +124,7 @@ public class SearchGroupController extends Activity implements
 			String responseString = null;
 			try {
 				HttpGet g = new HttpGet(uri[0]);
-				/*
-				 * HttpPost p = new HttpPost(uri[0]); p.setEntity(new
-				 * StringEntity(uri[1], "UTF8")); p.setHeader("Content-type",
-				 * "application/json");
-				 */
+
 				response = httpclient.execute(g);
 				StatusLine statusLine = response.getStatusLine();
 				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
@@ -159,11 +158,11 @@ public class SearchGroupController extends Activity implements
 				// first parameter, the type of list view as a second parameter
 				// and your
 				// array as a third parameter.
-				ArrayAdapter<Group> arrayAdapter = new ArrayAdapter<Group>(
-						SearchGroupController.this, R.layout.black_textview,
-						your_array_list);
+				ListviewbuttonAdapter adapter = new ListviewbuttonAdapter(
+						your_array_list, SearchGroupController.this,
+						R.drawable.ic_plus);
 
-				listView.setAdapter(arrayAdapter);
+				listView.setAdapter(adapter);
 			}
 		}
 	}

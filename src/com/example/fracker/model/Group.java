@@ -19,12 +19,17 @@ public class Group {
 	@SerializedName("password")
 	String _password;
 
+	@Expose
+	@SerializedName("owner")
+	long _owner;
+
 	@SerializedName("users")
 	List<User> _users;
 
-	public Group(String groupName, String password) {
+	public Group(String groupName, String password, long owner) {
 		_name = groupName;
 		_password = password;
+		_owner = owner;
 	}
 
 	public long getId() {
@@ -45,6 +50,14 @@ public class Group {
 
 	public void setPassword(String _password) {
 		this._password = _password;
+	}
+
+	public long getOwner() {
+		return _owner;
+	}
+
+	public void setOwner(long _owner) {
+		this._owner = _owner;
 	}
 
 	public List<User> getUsers() {
