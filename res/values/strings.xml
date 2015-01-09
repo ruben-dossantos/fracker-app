@@ -26,6 +26,11 @@
     <string name="pref_notification_distance_summary">Set the notification distance</string>
     <string name="pref_random_positions">Random position</string>
     <string name="pref_random_positions_summary">Privacy: Randomize my position</string>
+    
+    <string name="pref_time_intervals">Sync Position</string>
+    <string name="pref_time_intervals_summary">How much time to update my position</string>
+    
+    
     <string name="pref_user_name">Set username</string>
     <string name="pref_user_name_summary">Set your username</string>
     <string name="pref_user_profile">User Profile</string>

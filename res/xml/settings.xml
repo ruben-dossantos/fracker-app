@@ -59,4 +59,13 @@
             android:title="@string/pref_random_positions" />
     </PreferenceCategory>
     
+    <PreferenceCategory android:title="Actual Position Sync">
+        <ListPreference
+            android:key="prefSyncFrequency"
+            android:entries="@array/time_intervals"
+            android:summary="@string/pref_time_intervals_summary" 
+            android:entryValues="@array/time_intervals_values"
+            android:title="@string/pref_time_intervals" />
+    </PreferenceCategory>
+    
 </PreferenceScreen>

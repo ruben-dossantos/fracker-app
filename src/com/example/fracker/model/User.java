@@ -27,9 +27,11 @@ public class User {
 	@SerializedName("last_name")
 	String _last_name;
 
+	@Expose
 	@SerializedName("lat")
 	String _lat;
 
+	@Expose
 	@SerializedName("lon")
 	String _lon;
 
@@ -51,6 +53,13 @@ public class User {
 		_last_name = last_name;
 	}
 
+	public User(String username, String lat, String lon) {
+		_username = username;
+		_lat = lat;
+		_lon = lon;
+		
+	}
+	
 	public long getId() {
 		return _id;
 	}
