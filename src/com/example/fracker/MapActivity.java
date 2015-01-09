@@ -14,6 +14,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.example.fracker.model.Group;
 import com.example.fracker.model.User;
 import com.example.fracker.model.UserLogin;
 import com.google.android.gms.maps.GoogleMap;
@@ -126,7 +127,7 @@ public class MapActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 
-				String users = "users";
+				/*String users = "users";
 				int index = result.indexOf(users);
 				if (index != -1) {
 					result = "[".concat(result.substring(index+8 ,
@@ -135,7 +136,9 @@ public class MapActivity extends Activity {
 
 				List<User> your_array_list = new ArrayList<User>();
 				your_array_list = Arrays.asList(new Gson().fromJson(result,
-						User[].class));
+						User[].class));*/
+				Group g = new Gson().fromJson(result, Group.class);
+				List<User> your_array_list = g.getUsers();
 				for (User user : your_array_list) {
 					addMarker(Double.parseDouble(user.getLat()),Double.parseDouble(user.getLon()),user.getFirst_name()+" "+user.getLast_name());
 				}
