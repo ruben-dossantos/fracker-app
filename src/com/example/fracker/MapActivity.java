@@ -18,16 +18,22 @@ import com.example.fracker.model.Group;
 import com.example.fracker.model.User;
 import com.example.fracker.model.UserLogin;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MapActivity extends Activity {
@@ -54,6 +60,53 @@ public class MapActivity extends Activity {
 			new GetFriendsLocation()
 					.execute(String.format("%s%s%s%s%s", backendURL, "/user/",
 							userLogin.getId(), "/group/", groupId));
+
+			googleMap
+					.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+
+						@Override
+						public void onInfoWindowClick(Marker marker) {
+							LatLng position = marker.getPosition();
+
+							if (Double.parseDouble(userLogin.getLat()) == position.latitude
+									&& Double.parseDouble(userLogin.getLon()) == position.longitude) {
+								Toast.makeText(getApplicationContext(),
+										"You do not need to drive to yourself :P", Toast.LENGTH_LONG)
+										.show();
+
+							} else {
+
+								Intent intent = new Intent(
+										android.content.Intent.ACTION_VIEW,
+										Uri.parse("http://maps.google.com/maps?saddr="
+												+ userLogin.getLat()
+												+ ","
+												+ userLogin.getLon()
+												+ "&daddr="
+												+ position.latitude
+												+ "," + position.longitude));
+								startActivity(intent);
+							}
+
+						}
+					});
+
+			googleMap.setInfoWindowAdapter(new InfoWindowAdapter() {
+				@Override
+				public View getInfoWindow(Marker arg0) {
+					return null;
+				}
+
+				@Override
+				public View getInfoContents(Marker marker) {
+					View myContentView = getLayoutInflater().inflate(
+							R.layout.custommarker, null);
+					TextView tvTitle = ((TextView) myContentView
+							.findViewById(R.id.title));
+					tvTitle.setText(marker.getTitle());
+					return myContentView;
+				}
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,20 +180,21 @@ public class MapActivity extends Activity {
 			super.onPostExecute(result);
 			if (result != null) {
 
-				/*String users = "users";
-				int index = result.indexOf(users);
-				if (index != -1) {
-					result = "[".concat(result.substring(index+8 ,
-							result.length()-1));
-				}
-
-				List<User> your_array_list = new ArrayList<User>();
-				your_array_list = Arrays.asList(new Gson().fromJson(result,
-						User[].class));*/
+				/*
+				 * String users = "users"; int index = result.indexOf(users); if
+				 * (index != -1) { result = "[".concat(result.substring(index+8
+				 * , result.length()-1)); }
+				 * 
+				 * List<User> your_array_list = new ArrayList<User>();
+				 * your_array_list = Arrays.asList(new Gson().fromJson(result,
+				 * User[].class));
+				 */
 				Group g = new Gson().fromJson(result, Group.class);
 				List<User> your_array_list = g.getUsers();
 				for (User user : your_array_list) {
-					addMarker(Double.parseDouble(user.getLat()),Double.parseDouble(user.getLon()),user.getFirst_name()+" "+user.getLast_name());
+					addMarker(Double.parseDouble(user.getLat()),
+							Double.parseDouble(user.getLon()),
+							user.getFirst_name() + " " + user.getLast_name());
 				}
 			}
 		}

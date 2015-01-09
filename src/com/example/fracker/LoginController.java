@@ -43,17 +43,31 @@ public class LoginController extends Activity {
 			@Override
 			public void onClick(View arg0) {
 
-				username = ((TextView) findViewById(R.id.input_email))
-						.getText().toString();
-				password = ((TextView) findViewById(R.id.input_password))
-						.getText().toString();
+				ConnectionDetector cd = new ConnectionDetector(
+						getApplicationContext());
+				boolean isInternetPresent = cd.isConnectingToInternet();
+				if (!isInternetPresent) {
+					// Internet Connection is not present
+					Toast.makeText(
+							LoginController.this,
+							"No internet connection to communicate with the server",
+							Toast.LENGTH_LONG).show();
+					// stop executing code by return
 
-				User user = new User(username, password);
-				Gson gson = new GsonBuilder()
-						.excludeFieldsWithoutExposeAnnotation().create();
-				String json = gson.toJson(user);
-				new PostLoginTask().execute(
-						String.format("%s%s", backendURL, "/login"), json);
+				} else {
+
+					username = ((TextView) findViewById(R.id.input_email))
+							.getText().toString();
+					password = ((TextView) findViewById(R.id.input_password))
+							.getText().toString();
+
+					User user = new User(username, password);
+					Gson gson = new GsonBuilder()
+							.excludeFieldsWithoutExposeAnnotation().create();
+					String json = gson.toJson(user);
+					new PostLoginTask().execute(
+							String.format("%s%s", backendURL, "/login"), json);
+				}
 			}
 		});
 
@@ -61,10 +75,26 @@ public class LoginController extends Activity {
 		button2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				
+				ConnectionDetector cd = new ConnectionDetector(
+						getApplicationContext());
+				boolean isInternetPresent = cd.isConnectingToInternet();
+				if (!isInternetPresent) {
+					// Internet Connection is not present
+					Toast.makeText(
+							LoginController.this,
+							"No internet connection to communicate with the server",
+							Toast.LENGTH_LONG).show();
+					// stop executing code by return
+
+				} else {
+
 
 				Intent i = new Intent(LoginController.this,
 						SignupController.class);
 				startActivity(i);
+				
+				}
 			}
 		});
 
