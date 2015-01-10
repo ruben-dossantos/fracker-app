@@ -62,7 +62,7 @@ public class SearchGroupController extends Activity implements
 
 		listView.setAdapter(arrayAdapter);
 
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		/*listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myAdapter, View myView,
 					int myItemInt, long mylng) {
@@ -76,7 +76,7 @@ public class SearchGroupController extends Activity implements
 				// i.putExtra("EXTRA_ID", id);
 				startActivity(i);
 			}
-		});
+		});*/
 
 	}
 

@@ -20,6 +20,7 @@ import com.example.fracker.model.UserLogin;
 import com.google.gson.Gson;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -34,9 +35,11 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 import android.widget.SearchView.OnCloseListener;
 import android.widget.TextView;
 
@@ -45,7 +48,7 @@ public class GroupsController extends Activity {
 	private static final int RESULT_SETTINGS = 1;
 	private ListView listView;
 	private User userLogin;
-	private String backendURL = "http://crucifix.inescporto.pt:8080";
+	private String backendURL = "http://crucifix.inescporto.pt:8080", password;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,8 @@ public class GroupsController extends Activity {
 
 		showUserSettings();
 
-		new GetGroupTask().execute(String.format("%s/user/%s/group", backendURL, userLogin.getId()));
+		new GetGroupTask().execute(String.format("%s/user/%s/group",
+				backendURL, userLogin.getId()));
 
 		/*
 		 * List<String> your_array_list = new ArrayList<String>();
@@ -84,13 +88,54 @@ public class GroupsController extends Activity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Group selectedFromList = (Group) (listView
-						.getItemAtPosition(position));
+					final int position, long id) {
 
-				Intent i = new Intent(GroupsController.this, MapActivity.class);
-				i.putExtra("GROUP_ID", Long.toString(selectedFromList.getId()));
-				startActivity(i);
+				final Dialog dialog = new Dialog(GroupsController.this);
+				dialog.setContentView(R.layout.popup_join_group);
+				dialog.setTitle("Join Group");
+
+				// Her add your textView and ImageView if you want
+
+				Button joinButton = (Button) dialog
+						.findViewById(R.id.bt0_popUP);
+				// if button is clicked, close the custom dialog
+				joinButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Group selectedFromList = (Group) (listView
+								.getItemAtPosition(position));
+
+						password = ((TextView) findViewById(R.id.input_password))
+								.getText().toString();
+
+						if (password.equals(selectedFromList.getPassword())) {
+							Intent i = new Intent(GroupsController.this,
+									MapActivity.class);
+
+							i.putExtra("GROUP_ID",
+									Long.toString(selectedFromList.getId()));
+							startActivity(i);
+
+						} else {
+							Toast.makeText(getApplicationContext(),
+									"Invalid fields", Toast.LENGTH_LONG).show();
+						}
+
+					}
+				});
+
+				Button closeButton = (Button) dialog
+						.findViewById(R.id.bt1_popUP);
+				// if button is clicked, close the custom dialog
+				closeButton.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+
+				dialog.show();
+
 			}
 		});
 
@@ -122,9 +167,10 @@ public class GroupsController extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		new GetGroupTask().execute(String.format("%s/user/%s/group", backendURL, userLogin.getId()));
+		new GetGroupTask().execute(String.format("%s/user/%s/group",
+				backendURL, userLogin.getId()));
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.settings, menu);
