@@ -20,12 +20,15 @@ import org.json.JSONObject;
 import com.example.fracker.model.Group;
 import com.example.fracker.model.UserLogin;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ public class ListviewbuttonAdapter extends BaseAdapter implements ListAdapter {
 	private List<Group> list = new ArrayList<Group>();
 	private Context context;
 	private int imgId;
+	private String password;
 
 	public ListviewbuttonAdapter(List<Group> list, Context context, int imgId) {
 		this.list = list;
@@ -83,7 +87,7 @@ public class ListviewbuttonAdapter extends BaseAdapter implements ListAdapter {
 			@Override
 			public void onClick(View v) {
 				// do something
-				Group g = getItem(position);
+				final Group g = getItem(position);
 				if (imgId == R.drawable.ic_minus) {
 
 					new DeleteGroupTask().execute(String.format(
@@ -95,20 +99,61 @@ public class ListviewbuttonAdapter extends BaseAdapter implements ListAdapter {
 
 				} else if (imgId == R.drawable.ic_plus) {
 
-					JSONObject jsonObj = new JSONObject();
+					final Dialog dialog = new Dialog(context);
+					dialog.setContentView(R.layout.popup_join_group);
+					dialog.setTitle("Join Group");
 
-					try {
-						jsonObj.put("user",
-								UserLogin.getInstance().userLogin.getId());
-						jsonObj.put("group", g.getId());
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					new PutGroupTask().execute(String.format(
-							"%s/user/%s/group", backendURL,
-							UserLogin.getInstance().userLogin.getId()), jsonObj
-							.toString());
+					// Her add your textView and ImageView if you want
+
+					Button joinButton = (Button) dialog
+							.findViewById(R.id.bt0_popUP);
+					// if button is clicked, close the custom dialog
+					joinButton.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+
+							password = ((TextView) dialog
+									.findViewById(R.id.input_password))
+									.getText().toString();
+
+							if (password.equals(g.getPassword())) {
+
+								JSONObject jsonObj = new JSONObject();
+
+								try {
+									jsonObj.put("user",
+											UserLogin.getInstance().userLogin
+													.getId());
+									jsonObj.put("group", g.getId());
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								new PutGroupTask().execute(String.format(
+										"%s/user/%s/group", backendURL,
+										UserLogin.getInstance().userLogin
+												.getId()), jsonObj.toString());
+
+							} else {
+								Toast.makeText(context, "Invalid fields",
+										Toast.LENGTH_LONG).show();
+							}
+
+						}
+					});
+
+					Button closeButton = (Button) dialog
+							.findViewById(R.id.bt1_popUP);
+					// if button is clicked, close the custom dialog
+					closeButton.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							dialog.dismiss();
+						}
+					});
+
+					dialog.show();
+
 				}
 
 			}

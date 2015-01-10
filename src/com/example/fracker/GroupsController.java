@@ -48,7 +48,7 @@ public class GroupsController extends Activity {
 	private static final int RESULT_SETTINGS = 1;
 	private ListView listView;
 	private User userLogin;
-	private String backendURL = "http://crucifix.inescporto.pt:8080", password;
+	private String backendURL = "http://crucifix.inescporto.pt:8080";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,53 +88,15 @@ public class GroupsController extends Activity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					final int position, long id) {
+					int position, long id) {
 
-				final Dialog dialog = new Dialog(GroupsController.this);
-				dialog.setContentView(R.layout.popup_join_group);
-				dialog.setTitle("Join Group");
+				Group selectedFromList = (Group) (listView
+						.getItemAtPosition(position));
 
-				// Her add your textView and ImageView if you want
+				Intent i = new Intent(GroupsController.this, MapActivity.class);
 
-				Button joinButton = (Button) dialog
-						.findViewById(R.id.bt0_popUP);
-				// if button is clicked, close the custom dialog
-				joinButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Group selectedFromList = (Group) (listView
-								.getItemAtPosition(position));
-
-						password = ((TextView) findViewById(R.id.input_password))
-								.getText().toString();
-
-						if (password.equals(selectedFromList.getPassword())) {
-							Intent i = new Intent(GroupsController.this,
-									MapActivity.class);
-
-							i.putExtra("GROUP_ID",
-									Long.toString(selectedFromList.getId()));
-							startActivity(i);
-
-						} else {
-							Toast.makeText(getApplicationContext(),
-									"Invalid fields", Toast.LENGTH_LONG).show();
-						}
-
-					}
-				});
-
-				Button closeButton = (Button) dialog
-						.findViewById(R.id.bt1_popUP);
-				// if button is clicked, close the custom dialog
-				closeButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						dialog.dismiss();
-					}
-				});
-
-				dialog.show();
+				i.putExtra("GROUP_ID", Long.toString(selectedFromList.getId()));
+				startActivity(i);
 
 			}
 		});
