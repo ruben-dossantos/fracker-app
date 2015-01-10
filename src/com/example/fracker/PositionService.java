@@ -3,6 +3,8 @@ package com.example.fracker;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,6 +19,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.example.fracker.model.Friend;
 import com.example.fracker.model.Group;
 import com.example.fracker.model.User;
 import com.example.fracker.model.UserLogin;
@@ -33,6 +36,9 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,10 +55,10 @@ public class PositionService extends Service {
 
 	private String backendURL = "http://crucifix.inescporto.pt:8080";
 
-	final static long TIME = 15000;
+	final static long TIME = 60000;
 
 	Context context = null;
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -64,13 +70,11 @@ public class PositionService extends Service {
 		// Toast.LENGTH_SHORT).show();
 		final Handler h = new Handler();
 
-		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-		Intent intent = new Intent(this, LoginController.class);
-		PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+		//Intent intent = new Intent(this, LoginController.class);
+		//PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
 		context = getApplicationContext();
-		
+
 		h.post(new Runnable() {
 			@Override
 			public void run() {
@@ -79,13 +83,15 @@ public class PositionService extends Service {
 			}
 		});
 
-		Notification n = new Notification.Builder(this)
-				.setContentTitle("New mail from " + "test@gmail.com")
-				.setContentText("Subject").setSmallIcon(R.drawable.ic_launcher)
-				.setContentIntent(pIntent).setAutoCancel(true)
-				.addAction(R.drawable.ic_launcher, "Call", pIntent).build();
+//		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-		notificationManager.notify(0, n);
+	//	Notification n = new Notification.Builder(this)
+	//		.setContentTitle("New mail from " + "test@gmail.com")
+	//			.setContentText("Subject").setSmallIcon(R.drawable.ic_launcher)
+	//			.setContentIntent(pIntent).setAutoCancel(true)
+	//			.addAction(R.drawable.ic_launcher, "Call", pIntent).build();
+
+	//	notificationManager.notify(0, n);
 	}
 
 	public void LocationUpdates() {
@@ -129,9 +135,14 @@ public class PositionService extends Service {
 				String json = gson.toJson(u1);
 
 				System.out.println("json to send: " + json);
-				
+
 				new PostGroupTask().execute(
-						String.format("%s%s", backendURL, "/user/" + UserLogin.getInstance().userLogin.getId()), json);
+						String.format(
+								"%s%s",
+								backendURL,
+								"/user/"
+										+ UserLogin.getInstance().userLogin
+												.getId()), json);
 
 			} catch (Exception e) {
 
@@ -160,8 +171,10 @@ public class PositionService extends Service {
 
 				response = httpclient.execute(p);
 				StatusLine statusLine = response.getStatusLine();
-				System.out.println("status code = " + statusLine.getStatusCode());
-				//Toast.makeText(context, "status code = " + statusLine.getStatusCode(), Toast.LENGTH_LONG).show();
+				System.out.println("status code = "
+						+ statusLine.getStatusCode());
+				// Toast.makeText(context, "status code = " +
+				// statusLine.getStatusCode(), Toast.LENGTH_LONG).show();
 				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
 					ByteArrayOutputStream out = new ByteArrayOutputStream();
 					response.getEntity().writeTo(out);
@@ -170,7 +183,7 @@ public class PositionService extends Service {
 					System.out.println("responseString = " + responseString);
 				} else {
 					// Closes the connection.
-					response.getEntity().getContent().close();					
+					response.getEntity().getContent().close();
 					throw new IOException(statusLine.getReasonPhrase());
 				}
 			} catch (ClientProtocolException e) {
@@ -185,13 +198,47 @@ public class PositionService extends Service {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				Toast.makeText(context,
-						"Your position was updated + " + result,
-						Toast.LENGTH_LONG).show();
+
+				List<Friend> friends = new ArrayList<Friend>();
+				friends = Arrays.asList(new Gson().fromJson(result,
+						Friend[].class));
+
+				// Toast.makeText(context,
+				// "Your position was updated + " + friends,
+				// Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(context, LoginController.class);
+				PendingIntent pIntent = PendingIntent.getActivity(context, 0,
+						intent, 0);
+
+				NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+				for (int i = 0; i < friends.size(); i++) {
+
+					Notification notification = new Notification.Builder(context)
+							.setContentTitle( i + "/" + friends.size() + " " +
+									friends.get(i).get_name() + " is within " + friends.get(i).get_distance() + " km.")
+							//.setContentText("Subject")
+							.setSmallIcon(R.drawable.ic_launcher)
+							.setContentIntent(pIntent).setAutoCancel(true)
+							.addAction(R.drawable.ic_launcher, "Groups", pIntent)
+							.build();
+
+					notificationManager.notify(i, notification);
+					
+					try {
+					    Uri notification_sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+					    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification_sound);
+					    r.play();
+					} catch (Exception e) {
+					    e.printStackTrace();
+					}
+
+				}
+
 			}
 			// Do anything with response..
 		}
-				
+
 	}
 
 	/*
@@ -213,8 +260,8 @@ public class PositionService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-		Toast.makeText(context, "PositionService started!!!",
-				Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "PositionService started!!!",
+		//		Toast.LENGTH_SHORT).show();
 		return START_STICKY;
 	}
 
@@ -244,8 +291,8 @@ public class PositionService extends Service {
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			Toast.makeText(context, "statusChanged!!!",
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, "statusChanged!!!", Toast.LENGTH_SHORT)
+			//		.show();
 		}
 
 	}
