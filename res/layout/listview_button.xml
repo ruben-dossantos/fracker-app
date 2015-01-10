@@ -14,12 +14,13 @@
         android:paddingLeft="8dp"
         android:textSize="18sp" />
 
+    
     <ImageButton
         android:id="@+id/action_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8sp"
+        android:layout_marginTop="8sp"        
         android:background="@null"
         android:focusable="false" />
 

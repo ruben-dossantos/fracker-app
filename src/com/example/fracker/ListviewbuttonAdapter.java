@@ -134,9 +134,10 @@ public class ListviewbuttonAdapter extends BaseAdapter implements ListAdapter {
 										UserLogin.getInstance().userLogin
 												.getId()), jsonObj.toString());
 
+								dialog.dismiss();								
 							} else {
-								Toast.makeText(context, "Invalid fields",
-										Toast.LENGTH_LONG).show();
+								Toast.makeText(context, "Incorrect password",
+										Toast.LENGTH_SHORT).show();
 							}
 
 						}
@@ -197,7 +198,7 @@ public class ListviewbuttonAdapter extends BaseAdapter implements ListAdapter {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			if (result != null) {
-				Toast.makeText(context, "You leave the group",
+				Toast.makeText(context, "You left the group",
 						Toast.LENGTH_LONG).show();
 			}
 		}

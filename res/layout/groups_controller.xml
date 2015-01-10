@@ -13,33 +13,35 @@
         android:background="@color/blue"
         android:gravity="center_vertical" >
 
+        <ImageButton
+            android:id="@+id/add_group"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"            
+            android:background="@null"
+            android:src="@drawable/ic_plus" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/search"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20sp"
+            android:layout_alignTop="@+id/search"
+            android:layout_marginLeft="20dp"
             android:text="@string/app_name"
-            android:textSize="30sp" />
+            android:textSize="36dp" />
 
         <ImageButton
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignTop="@+id/add_group"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/add_group"
             android:background="@null"
-            android:src="@android:drawable/ic_menu_search" />
+            android:src="@drawable/ic_magnify" />
 
-        <ImageButton
-            android:id="@+id/add_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8sp"
-            android:background="@null"
-            android:src="@android:drawable/ic_menu_add" />
     </RelativeLayout>
 
     <LinearLayout

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/blue"
+    android:background="@color/white"
     android:gravity="center" >
 
      <EditText
@@ -24,6 +24,7 @@
         android:layout_alignLeft="@+id/input_password"
         android:layout_below="@+id/input_password"
         android:layout_margin="4dp"
+        android:background="@drawable/sign_up_button"            
         android:text="@string/join" />
 
     <Button
@@ -34,6 +35,7 @@
         android:layout_alignBaseline="@+id/bt0_popUP"
         android:layout_alignBottom="@+id/bt0_popUP"
         android:layout_alignRight="@+id/input_password"
+        android:background="@drawable/sign_up_button"
         android:layout_margin="4dp"
         android:text="@string/close" />
 
