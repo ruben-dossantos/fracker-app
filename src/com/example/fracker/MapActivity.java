@@ -17,11 +17,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import com.example.fracker.model.Group;
 import com.example.fracker.model.User;
 import com.example.fracker.model.UserLogin;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -42,6 +46,7 @@ public class MapActivity extends Activity {
 	private GoogleMap googleMap;
 	private User userLogin;
 	private String backendURL = "http://crucifix.inescporto.pt:8080";
+	private ArrayList<Marker> markers = new ArrayList();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +146,30 @@ public class MapActivity extends Activity {
 		// create marker
 		MarkerOptions marker = new MarkerOptions().position(
 				new LatLng(latitude, longitude)).title(userName);
+		if (Double.parseDouble(userLogin.getLat()) == latitude
+				&& Double.parseDouble(userLogin.getLon()) == longitude) {
+			marker.icon(BitmapDescriptorFactory
+					.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+		}
 
 		// adding marker
-		googleMap.addMarker(marker);
+		markers.add(googleMap.addMarker(marker));
+		
+	}
+	
+	private void moveMap() {
+		LatLngBounds.Builder builder = new LatLngBounds.Builder();
+		
+		for (Marker marker : markers) {
+			builder.include(marker.getPosition());
+		}
+		
+		LatLngBounds bounds = builder.build();
+		int padding = 0; // offset from edges of the map in pixels
+		CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+		googleMap.animateCamera(cu);
+
 	}
 
 	private class GetFriendsLocation extends AsyncTask<String, String, String> {
@@ -196,6 +222,7 @@ public class MapActivity extends Activity {
 							Double.parseDouble(user.getLon()),
 							user.getFirst_name() + " " + user.getLast_name());
 				}
+				moveMap();
 			}
 		}
 	}
