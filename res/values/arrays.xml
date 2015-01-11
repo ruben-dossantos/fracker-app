@@ -42,14 +42,16 @@
     </string-array>
     
     <string-array name="time_intervals">
+        <item name="1">10 seconds(Testing)</item>
         <item name="3">3 min</item>
         <item name="5">5 min</item>
         <item name="10">10 min</item>                
     </string-array>
-    <string-array name="time_intervals_values">        
-        <item name="3">3</item>
-        <item name="5">5</item>        
-        <item name="10">10</item>
-    </string-array>
+    <string-array name="time_intervals_values">
+        <item name="1">10000</item>
+        <item name="3">180000</item>
+        <item name="5">300000</item>        
+        <item name="10">600000</item>
+    </string-array>    
     
 </resources>

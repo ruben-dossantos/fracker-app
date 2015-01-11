@@ -1,71 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    
-    <PreferenceCategory android:title="Update Days">
-    
-        <com.example.fracker.TimePreference        
-        android:key="monday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Monday" />
-        
-        <com.example.fracker.TimePreference        
-        android:key="tuesday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Tuesday" />
-        
-        <com.example.fracker.TimePreference        
-        android:key="wednesday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Wednesday" />
-        
-        <com.example.fracker.TimePreference        
-        android:key="thursday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Thursday" />
-        
-        <com.example.fracker.TimePreference        
-        android:key="friday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Friday" />
-        
-        <com.example.fracker.TimePreference        
-        android:key="saturday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Saturday" />
-        
-        <com.example.fracker.TimePreference        
-        android:key="sunday"
-        android:summary="Set your desired time for the lunch alarm"
-        android:title="Sunday" />
-        
+
+    <PreferenceCategory android:title="Update days" >
+        <PreferenceScreen
+            android:key="button_mondays_key"
+            android:persistent="true"
+            android:title="Mondays" >
+            <com.example.fracker.TimePreference
+                android:key="start_2"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Monday" />
+            <com.example.fracker.TimePreference
+                android:key="end_2"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Monday" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="button_tuesdays_key"
+            android:persistent="true"
+            android:title="Tuesdays" >
+            <com.example.fracker.TimePreference
+                android:key="start_3"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Tuesday" />
+            <com.example.fracker.TimePreference
+                android:key="end_3"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Tuesday" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="button_wednesdays_key"
+            android:persistent="true"
+            android:title="Wednesdays" >
+            <com.example.fracker.TimePreference
+                android:key="start_4"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Wednesday" />
+            <com.example.fracker.TimePreference
+                android:key="end_4"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Wednesday" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="button_thursdays_key"
+            android:persistent="true"
+            android:title="Thursdays" >
+            <com.example.fracker.TimePreference
+                android:key="start_5"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Thursday" />
+            <com.example.fracker.TimePreference
+                android:key="end_5"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Thursday" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="button_fridays_key"
+            android:persistent="true"
+            android:title="Fridays" >
+            <com.example.fracker.TimePreference
+                android:key="start_6"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Friday" />
+            <com.example.fracker.TimePreference
+                android:key="end_6"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Friday" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="button_saturdays_key"
+            android:persistent="true"
+            android:title="Saturdays" >
+            <com.example.fracker.TimePreference
+                android:key="start_7"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Saturday" />
+            <com.example.fracker.TimePreference
+                android:key="end_7"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Saturday" />
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="button_sundays_key"
+            android:persistent="true"
+            android:title="Sundays" >
+            <com.example.fracker.TimePreference
+                android:key="start_1"
+                android:summary="Set the starting time to send your coordinates"
+                android:title="Start Sunday" />
+            <com.example.fracker.TimePreference
+                android:key="end_1"
+                android:summary="Set the ending time to send your coordinates"
+                android:title="End Sunday" />
+        </PreferenceScreen>
     </PreferenceCategory>
-    
-    <PreferenceCategory android:title="Notifications">
+    <PreferenceCategory android:title="Notifications" >
         <ListPreference
-            android:key="prefNofiticationDistance"
             android:entries="@array/notification_distances"
-            android:summary="@string/pref_notification_distance_summary" 
             android:entryValues="@array/notification_distances_values"
+            android:key="prefNofiticationDistance"
+            android:summary="@string/pref_notification_distance_summary"
             android:title="@string/pref_notification_distance" />
     </PreferenceCategory>
-
-    
-    <PreferenceCategory android:title="Position">
+    <PreferenceCategory android:title="Position" >
         <ListPreference
-            android:key="prefRandomPosition"
             android:entries="@array/random_positions"
-            android:summary="@string/pref_random_positions_summary" 
             android:entryValues="@array/random_positions_values"
+            android:key="prefRandomPosition"
+            android:summary="@string/pref_random_positions_summary"
             android:title="@string/pref_random_positions" />
     </PreferenceCategory>
-    
-    <PreferenceCategory android:title="Actual Position Sync">
+    <PreferenceCategory android:title="Actual Position Sync" >
         <ListPreference
-            android:key="prefSyncFrequency"
             android:entries="@array/time_intervals"
-            android:summary="@string/pref_time_intervals_summary" 
             android:entryValues="@array/time_intervals_values"
+            android:key="prefSyncFrequency"
+            android:summary="@string/pref_time_intervals_summary"
             android:title="@string/pref_time_intervals" />
     </PreferenceCategory>
-    
+
 </PreferenceScreen>

@@ -147,6 +147,11 @@ public class GroupsController extends Activity {
 			Intent i = new Intent(this, UserSettingActivity.class);
 			startActivityForResult(i, RESULT_SETTINGS);
 			break;
+		case R.id.menu_refresh:
+			Intent intent = new Intent(GroupsController.this, PositionService.class);
+			stopService(intent);
+			startService(intent);
+			break;
 
 		}
 

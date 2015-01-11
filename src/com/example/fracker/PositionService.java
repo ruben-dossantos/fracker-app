@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,6 +44,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 public class PositionService extends Service {
@@ -55,43 +57,46 @@ public class PositionService extends Service {
 
 	private String backendURL = "http://crucifix.inescporto.pt:8080";
 
-	final static long TIME = 60000;
+	final static long TIME = 15000;
 
 	Context context = null;
+
+	SharedPreferences sharedPrefs = null;
+
+	double preferenceDistance = 10.0;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		// boolean enabled =
-		// locationManager
-		// .isProviderEnabled(LocationManager.GPS_PROVIDER);
-		// Toast.makeText(getApplicationContext(),
-		// "PositionService created!!! gps enabled: " + enabled,
-		// Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getApplicationContext(), "PositionService created!!!",
+		//		Toast.LENGTH_SHORT).show();
 		final Handler h = new Handler();
 
-		//Intent intent = new Intent(this, LoginController.class);
-		//PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
 		context = getApplicationContext();
+
+		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+		final long prefSyncFrequency = Long.parseLong(sharedPrefs.getString(
+				"prefSyncFrequency", "10000"));
 
 		h.post(new Runnable() {
 			@Override
 			public void run() {
 				LocationUpdates();
-				h.postDelayed(this, TIME);
+				h.postDelayed(this, prefSyncFrequency);
 			}
 		});
 
-//		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		String aux = sharedPrefs.getString("prefSyncFrequency", "NULL");
+		if (aux != "NULL") {
+			try {
+				preferenceDistance = Double.parseDouble(aux);
+			} catch (Exception e) {
+				Toast.makeText(context, "error parsing double",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
 
-	//	Notification n = new Notification.Builder(this)
-	//		.setContentTitle("New mail from " + "test@gmail.com")
-	//			.setContentText("Subject").setSmallIcon(R.drawable.ic_launcher)
-	//			.setContentIntent(pIntent).setAutoCancel(true)
-	//			.addAction(R.drawable.ic_launcher, "Call", pIntent).build();
-
-	//	notificationManager.notify(0, n);
 	}
 
 	public void LocationUpdates() {
@@ -117,14 +122,9 @@ public class PositionService extends Service {
 	}
 
 	private void updateWithNewLocation(Location location) {
-		String latLongString = "Unknown";
-		DecimalFormat df = new DecimalFormat("##.0000000");
 		if (location != null) {
 			double lat = location.getLatitude();
 			double lng = location.getLongitude();
-			latLongString = "Lat:" + df.format(lat) + "\nLong:"
-					+ df.format(lng);
-
 			try {
 				Gson gson = new GsonBuilder()
 						.excludeFieldsWithoutExposeAnnotation().create();
@@ -136,22 +136,64 @@ public class PositionService extends Service {
 
 				System.out.println("json to send: " + json);
 
-				new PostGroupTask().execute(
-						String.format(
-								"%s%s",
-								backendURL,
-								"/user/"
-										+ UserLogin.getInstance().userLogin
-												.getId()), json);
+				if (canSend()) {
+					new PostGroupTask()
+							.execute(
+									String.format(
+											"%s%s",
+											backendURL,
+											"/user/"
+													+ UserLogin.getInstance().userLogin
+															.getId()), json);
+
+				}
 
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
-		} else {
-			latLongString += " - location is null";
 		}
 		// Toast.makeText(getApplicationContext(), "Your Current Position is:\n"
 		// + latLongString , Toast.LENGTH_SHORT).show();
+
+	}
+
+	private boolean canSend() {
+		Calendar c = Calendar.getInstance();
+		int day = c.get(Calendar.DAY_OF_WEEK);
+		int hour = c.getTime().getHours();
+		int minute = c.getTime().getMinutes();
+
+		String start = "start_" + day;
+		String end = "end_" + day;
+
+		Long start_time = sharedPrefs.getLong(start, 0L);
+		Long end_time = sharedPrefs.getLong(end, 0L);
+
+		c.setTimeInMillis(start_time);
+		int start_hour = c.getTime().getHours();
+		int start_minute = c.getTime().getMinutes();
+
+		c.setTimeInMillis(end_time);
+		int end_hour = c.getTime().getHours();
+		int end_minute = c.getTime().getMinutes();
+
+		if (start_hour < hour && hour < end_hour) {
+			return true;
+		} else if (start_hour == hour) {
+			if (start_minute < minute) {
+				return true;
+			} else {
+				return false;
+			}
+		} else if (hour == end_hour) {
+			if (minute < end_minute) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 
 	}
 
@@ -159,6 +201,7 @@ public class PositionService extends Service {
 
 		@Override
 		protected String doInBackground(String... uri) {
+
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpResponse response;
 			String responseString = null;
@@ -203,6 +246,16 @@ public class PositionService extends Service {
 				friends = Arrays.asList(new Gson().fromJson(result,
 						Friend[].class));
 
+				String aux = sharedPrefs.getString("prefSyncFrequency", "NULL");
+				if (aux != "NULL") {
+					try {
+						preferenceDistance = Double.parseDouble(aux);
+					} catch (Exception e) {
+						Toast.makeText(context, "error parsing double",
+								Toast.LENGTH_SHORT).show();
+					}
+				}
+
 				// Toast.makeText(context,
 				// "Your position was updated + " + friends,
 				// Toast.LENGTH_LONG).show();
@@ -213,24 +266,35 @@ public class PositionService extends Service {
 				NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 				for (int i = 0; i < friends.size(); i++) {
+					if (friends.get(i).get_distance() < preferenceDistance) {
+						Notification notification = new Notification.Builder(
+								context)
+								.setContentTitle(
+										i + "/" + friends.size() + " "
+												+ friends.get(i).get_name()
+												+ " is within "
+												+ friends.get(i).get_distance()
+												+ " km.")
+								// .setContentText("Subject")
+								.setSmallIcon(R.drawable.ic_launcher)
+								.setContentIntent(pIntent)
+								.setAutoCancel(true)
+								.addAction(R.drawable.ic_launcher, "Groups",
+										pIntent).build();
 
-					Notification notification = new Notification.Builder(context)
-							.setContentTitle( i + "/" + friends.size() + " " +
-									friends.get(i).get_name() + " is within " + friends.get(i).get_distance() + " km.")
-							//.setContentText("Subject")
-							.setSmallIcon(R.drawable.ic_launcher)
-							.setContentIntent(pIntent).setAutoCancel(true)
-							.addAction(R.drawable.ic_launcher, "Groups", pIntent)
-							.build();
+						notificationManager.notify(i, notification);
 
-					notificationManager.notify(i, notification);
-					
-					try {
-					    Uri notification_sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-					    Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification_sound);
-					    r.play();
-					} catch (Exception e) {
-					    e.printStackTrace();
+						try {
+							Uri notification_sound = RingtoneManager
+									.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+							Ringtone r = RingtoneManager
+									.getRingtone(getApplicationContext(),
+											notification_sound);
+							r.play();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
 					}
 
 				}
@@ -260,8 +324,8 @@ public class PositionService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-		//Toast.makeText(context, "PositionService started!!!",
-		//		Toast.LENGTH_SHORT).show();
+		// Toast.makeText(context, "PositionService started!!!",
+		// Toast.LENGTH_SHORT).show();
 		return START_STICKY;
 	}
 
@@ -291,8 +355,8 @@ public class PositionService extends Service {
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			//Toast.makeText(context, "statusChanged!!!", Toast.LENGTH_SHORT)
-			//		.show();
+			// Toast.makeText(context, "statusChanged!!!", Toast.LENGTH_SHORT)
+			// .show();
 		}
 
 	}
